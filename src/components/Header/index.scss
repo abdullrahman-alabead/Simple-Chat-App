@@ -1,0 +1,95 @@
+$light-background-color: #dee2e6;
+$light-second-background-color: #adb5bd;
+$light-text-color: #212529;
+
+$dark-background-color: #0a0a0a;
+$dark-second-background-color: #1f1f1f;
+$dark-text-color: #b9b9b9;
+
+header {
+  position: relative;
+  display: flex;
+  padding: 20px 40px;
+  justify-content: center;
+  align-items: center;
+  font-family: sans-serif;
+  border-top-left-radius: 20px;
+  border-top-right-radius: 20px;
+  -webkit-box-shadow: 0px 14px 44px -19px rgba(0, 0, 0, 0.75);
+  -moz-box-shadow: 0px 14px 44px -19px rgba(0, 0, 0, 0.75);
+  box-shadow: 0px 14px 44px -19px rgba(0, 0, 0, 0.75);
+  .logo {
+    font-size: 40px;
+    font-family: "Cookie";
+    transition: 0.6s ease-out;
+  }
+  &.light {
+    background-image: linear-gradient(
+      to right,
+      $light-background-color,
+      $light-second-background-color
+    );
+    .logo {
+      color: $light-text-color;
+    }
+  }
+  &.dark {
+    background-image: linear-gradient(
+      to right,
+      $dark-background-color,
+      $dark-second-background-color
+    );
+    .logo {
+      color: $dark-text-color;
+    }
+  }
+
+  .btn {
+    width: 3rem;
+    height: 1.5rem;
+    border-radius: 20px;
+    border: none;
+    position: absolute;
+    right: 20px;
+    padding: 3px;
+    cursor: pointer;
+    transition: 0.6s ease-out;
+    &.dark {
+      background: $light-background-color;
+      .btn-circle {
+        background-color: $dark-background-color;
+      }
+    }
+    &.light {
+      background: $dark-background-color;
+      .btn-circle {
+        background-color: $light-background-color;
+        transform: translateX(100%);
+      }
+    }
+    .btn-circle {
+      width: 50%;
+      height: 100%;
+      border-radius: 50%;
+      transition: 0.6s ease-out;
+    }
+  }
+  .sign-out-btn {
+    padding: 0.4rem 0.8rem;
+    border-radius: 20px;
+    border: none;
+    position: absolute;
+    left: 20px;
+    cursor: pointer;
+    transition: 0.6s ease-out;
+    font-weight: bold;
+    &.dark {
+      background: $light-background-color;
+      color: $light-text-color;
+    }
+    &.light {
+      background: $dark-background-color;
+      color: $dark-text-color;
+    }
+  }
+}

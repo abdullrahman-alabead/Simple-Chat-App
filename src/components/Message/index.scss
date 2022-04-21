@@ -1,0 +1,73 @@
+$light-background-color: #dee2e6;
+$light-second-background-color: #adb5bd;
+$light-text-color: #212529;
+
+$dark-background-color: #0a0a0a;
+$dark-second-background-color: #1f1f1f;
+$dark-text-color: #b9b9b9;
+
+.message {
+  display: flex;
+  flex-direction: row-reverse;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 5px;
+  .prof-pic {
+    border-radius: 50%;
+    width: 40px;
+  }
+  .message-text {
+    position: relative;
+    padding: 5px 10px;
+    width: fit-content;
+    border-radius: 8px;
+    font-size: 1.2rem;
+    transition: 0.6s ease-out;
+    font-weight: bold;
+    .name {
+      margin-bottom: 1.5px;
+      font-weight: bold;
+      transition: 0.6s ease-out;
+    }
+    .send-time {
+      font-size: 0.9rem;
+      transition: 0.4s ease-out;
+    }
+  }
+  &.sent {
+    align-self: flex-end;
+    flex-direction: row;
+  }
+  &.dark {
+    .message-text {
+      background-image: linear-gradient(
+        to left,
+        $dark-background-color,
+        $dark-second-background-color
+      );
+      color: $dark-text-color;
+      .name {
+        color: $dark-text-color;
+      }
+      .send-time {
+        color: $dark-text-color;
+      }
+    }
+  }
+  &.light {
+    .message-text {
+      background-image: linear-gradient(
+        to right,
+        $light-background-color,
+        $light-second-background-color
+      );
+      color: $light-text-color;
+      .name {
+        color: $light-text-color;
+      }
+      .send-time {
+        color: $light-text-color;
+      }
+    }
+  }
+}

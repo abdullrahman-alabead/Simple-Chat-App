@@ -1,0 +1,122 @@
+$light-background-color: #dee2e6;
+$light-second-background-color: #adb5bd;
+$light-text-color: #212529;
+$light-alt-color: #6c757d;
+
+$dark-background-color: #0a0a0a;
+$dark-second-background-color: #1f1f1f;
+$dark-text-color: #b9b9b9;
+$dark-alt-color: #3d3d3d;
+.chat-screen {
+  position: relative;
+  height: calc(100% - 84px);
+  background: inherit;
+  border-bottom-right-radius: 20px;
+  border-bottom-left-radius: 20px;
+  padding: 10px;
+  .isTyping {
+    position: absolute;
+    z-index: 100;
+    font-weight: bold;
+    top: -25px;
+    font-size: 1.2rem;
+    transition: 0.6s ease-out;
+  }
+  .messages {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 0.7rem;
+    overflow-y: scroll;
+    height: calc(100% - 78px);
+    scroll-behavior: smooth;
+    transition: 0.6s ease-out;
+
+    &::-webkit-scrollbar {
+      width: 3px;
+    }
+
+    &::-webkit-scrollbar-track {
+      background-color: transparent;
+    }
+  }
+  form {
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    width: calc(100% - 40px);
+    .text-msg {
+      padding: 10px 20px;
+      flex: 1;
+      border-radius: 10px;
+      border: none;
+      font-weight: bold;
+      font-size: 1.2rem;
+      transition: 0.6s ease-out;
+
+      &:focus {
+        outline: none;
+      }
+    }
+    .send-btn {
+      width: 3rem;
+      height: 3rem;
+      border-radius: 50%;
+      border: none;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 1.2rem;
+      cursor: pointer;
+      transition: 0.6s ease-out;
+    }
+  }
+  &.dark {
+    // background-color: grey;
+    // color: white;
+    .isTyping {
+      color: $dark-text-color;
+    }
+    .messages {
+      &::-webkit-scrollbar-thumb {
+        background-color: $dark-text-color;
+      }
+    }
+    form {
+      .text-msg {
+        color: $dark-text-color;
+        background-color: $dark-second-background-color;
+      }
+      .send-btn {
+        background-color: $dark-second-background-color;
+        color: $dark-text-color;
+      }
+    }
+  }
+  &.light {
+    // background-color: grey;
+    // color: white;
+    .isTyping {
+      color: $light-text-color;
+    }
+    .messages {
+      &::-webkit-scrollbar-thumb {
+        background-color: $light-text-color;
+      }
+    }
+    form {
+      .text-msg {
+        color: $light-text-color;
+        background-color: $light-alt-color;
+      }
+      .send-btn {
+        background-color: $light-alt-color;
+        color: $light-text-color;
+      }
+    }
+  }
+}

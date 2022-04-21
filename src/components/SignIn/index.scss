@@ -1,0 +1,36 @@
+$light-background-color: #dee2e6;
+$light-second-background-color: #adb5bd;
+$light-text-color: #212529;
+$light-alt-color: #6c757d;
+
+$dark-background-color: #0a0a0a;
+$dark-second-background-color: #1f1f1f;
+$dark-text-color: #b9b9b9;
+$dark-alt-color: #3d3d3d;
+
+.sign-in {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  .sign-in-button {
+    padding: 15px 30px;
+    border: none;
+    font-size: 1.5rem;
+    font-weight: bold;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  &.dark {
+    .sign-in-button {
+      background-color: $dark-alt-color;
+      color: $dark-text-color;
+    }
+  }
+  &.light {
+    .sign-in-button {
+      background-color: $light-alt-color;
+      color: $light-text-color;
+    }
+  }
+}
