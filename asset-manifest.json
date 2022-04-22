@@ -1,15 +1,15 @@
 {
   "files": {
-    "main.css": "/Simple-Chat-App/static/css/main.5594eb2b.css",
+    "main.css": "/Simple-Chat-App/static/css/main.603546bc.css",
     "main.js": "/Simple-Chat-App/static/js/main.f08131cc.js",
     "static/media/Cookie-Regular.ttf": "/Simple-Chat-App/static/media/Cookie-Regular.f7a638e09e95aca4ac87.ttf",
     "static/media/helvetica-neu.ttf": "/Simple-Chat-App/static/media/helvetica-neu.8a19678078a6b21c8057.ttf",
     "index.html": "/Simple-Chat-App/index.html",
-    "main.5594eb2b.css.map": "/Simple-Chat-App/static/css/main.5594eb2b.css.map",
+    "main.603546bc.css.map": "/Simple-Chat-App/static/css/main.603546bc.css.map",
     "main.f08131cc.js.map": "/Simple-Chat-App/static/js/main.f08131cc.js.map"
   },
   "entrypoints": [
-    "static/css/main.5594eb2b.css",
+    "static/css/main.603546bc.css",
     "static/js/main.f08131cc.js"
   ]
 }
