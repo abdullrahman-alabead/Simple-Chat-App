@@ -40,3 +40,15 @@ ul {
     );
   }
 }
+
+@media (max-width: 767px) {
+  body {
+    padding-top: 0;
+  }
+  .app {
+    width: 100vw;
+    height: 100vh;
+    margin: 0;
+    border-radius: 0;
+  }
+}

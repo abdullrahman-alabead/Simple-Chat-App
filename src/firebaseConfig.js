@@ -1,6 +1,7 @@
 import { initializeApp } from "firebase/app";
 import { getFirestore } from 'firebase/firestore'
 import { getAuth } from 'firebase/auth'
+import   { getAnalytics } from 'firebase/analytics'
 
 
 const firebaseConfig = {
@@ -9,7 +10,8 @@ const firebaseConfig = {
   projectId: "nolans-chat-app",
   storageBucket: "nolans-chat-app.appspot.com",
   messagingSenderId: "95090990902",
-  appId: "1:95090990902:web:5050cdbab6001946009d97"
+  appId: "1:95090990902:web:5050cdbab6001946009d97",
+  measurementId: "G-4T46JJF01F"
 };
 
 
@@ -19,4 +21,5 @@ const firebaseConfig = {
 
 export const app = initializeApp(firebaseConfig);
 export const auth = getAuth(app)
+export const analytics = getAnalytics(app)
 export const database = getFirestore(app)
