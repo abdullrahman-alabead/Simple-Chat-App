@@ -4,6 +4,10 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+html {
+  background-color: #95d5b2;
+}
+
 @font-face {
   font-family: "Cookie";
   src: url("./assets/Cookie-Regular.ttf");
