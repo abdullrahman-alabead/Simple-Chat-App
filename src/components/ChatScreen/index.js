@@ -48,6 +48,8 @@ export default function ChatScreen(props) {
     addDoc(collectionRef, {
       message: message.message,
       sentTime: `${hour}:${minuts}`,
+      name: user.displayName,
+      photo: user.photoURL,
       _orderTime: Date.now(),
       uid: user.uid,
     })
@@ -108,9 +110,9 @@ export default function ChatScreen(props) {
             <Message
               class={doc.data().uid == user.uid ? "sent" : "received"}
               message={doc.data().message}
-              name={user.displayName}
+              name={doc.data().name}
               time={doc.data().sentTime}
-              photo={user.photoURL}
+              photo={doc.data().photo}
               darkMode={props.darkMode}
             />
           );
