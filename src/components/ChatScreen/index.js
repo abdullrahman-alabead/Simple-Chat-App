@@ -1,9 +1,10 @@
-import { faPaperPlane } from "@fortawesome/free-solid-svg-icons";
+import { faPaperclip, faPaperPlane } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React from "react";
 import Message from "../Message";
+import FileMessage from "../FileMessage";
 import "./index.scss";
-import { database, auth } from "../../firebaseConfig";
+import { database, auth, storage } from "../../firebaseConfig";
 import {
   collection,
   addDoc,
@@ -16,7 +17,7 @@ import {
   setDoc,
   getDoc,
 } from "firebase/firestore";
-import { clear } from "@testing-library/user-event/dist/clear";
+import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
 
 export default function ChatScreen(props) {
   // keep track of the message input field
@@ -27,41 +28,82 @@ export default function ChatScreen(props) {
     checkIfTyping();
   }
 
-  // send message to firestore
+  // sending Files Handling
+  let [file, setFile] = React.useState("");
+
+  let fileBtn = document.querySelector(".send-file");
+  let fileInput = document.querySelector(".file-input");
+
+  let uploadFile = (e) => {
+    e.preventDefault();
+    fileInput.click();
+  };
+
+  function updateFile(e) {
+    e.preventDefault();
+    setFile(e.target.files[0]);
+  }
+
+  // send message/file to firestore
   let collectionRef = collection(database, "messages");
   let user = auth.currentUser;
 
   function sendMessage(e) {
     e.preventDefault();
-
-    // Check if the message is empty
-    if (document.querySelector(".text-msg").value == "") {
-      alert("Enter A message First");
-      return;
+    // file upload
+    if (file) {
+      let fileRef = ref(storage, file.name);
+      let uploadTask = uploadBytesResumable(fileRef, file);
+      uploadTask.on(
+        "state_changed",
+        (snapshot) => {},
+        (err) => alert(err.message),
+        () => {
+          getDownloadURL(uploadTask.snapshot.ref).then((url) => {
+            addDoc(collectionRef, {
+              type:'file',
+              fileUrl: url,
+              fileName: file.name,
+              uid: user.uid,
+              photo: user.photoURL,
+              _orderTime: Date.now(),
+            });
+          });
+        }
+      );
+      setFile(null);
     }
 
-    let date = new Date();
-    let hour = `${date.getHours() % 12}`.padStart(2, "0");
-    let minuts = `${date.getMinutes()}`.padStart(2, "0");
+    // Check if the message is empty
+    if (document.querySelector(".text-msg").value == "" && !file) {
+      alert("Nothing to send");
+      return;
+    }
+    if (document.querySelector(".text-msg").value != "") {
+      let date = new Date();
+      let hour = `${date.getHours() % 12}`.padStart(2, "0");
+      let minuts = `${date.getMinutes()}`.padStart(2, "0");
 
-    document.querySelector(".text-msg").value = "";
-    addDoc(collectionRef, {
-      message: message.message,
-      sentTime: `${hour}:${minuts}`,
-      name: user.displayName,
-      photo: user.photoURL,
-      _orderTime: Date.now(),
-      uid: user.uid,
-    })
-      .then(() => {
-        var messageBody = document.querySelector(".messages");
-        messageBody.scrollTop =
-          messageBody.scrollHeight - messageBody.clientHeight;
+      document.querySelector(".text-msg").value = "";
+      addDoc(collectionRef, {
+        type: "text",
+        message: message.message,
+        sentTime: `${hour}:${minuts}`,
+        name: user.displayName,
+        photo: user.photoURL,
+        _orderTime: Date.now(),
+        uid: user.uid,
       })
-      .catch((err) => alert(err.message));
+        .then(() => {
+          var messageBody = document.querySelector(".messages");
+          messageBody.scrollTop =
+            messageBody.scrollHeight - messageBody.clientHeight;
+        })
+        .catch((err) => alert(err.message));
+    }
   }
 
-  // get messages from firestore
+  // get messages/files from firestore
 
   let [msgEle, setMsgEle] = React.useState("");
   function getMessages() {
@@ -69,8 +111,7 @@ export default function ChatScreen(props) {
     let q = query(collectionRef, orderBy("_orderTime"));
 
     onSnapshot(q, (data) => {
-      setMsgEle(
-        data.docs);
+      setMsgEle(data.docs);
     });
   }
   React.useEffect(getMessages, []);
@@ -98,25 +139,42 @@ export default function ChatScreen(props) {
   let docRef = doc(database, "messages", "IsTyping");
   onSnapshot(docRef, (data) => setIsTyping(data.data().TypingState));
   return (
-    <div className={`chat-screen ${props.darkMode? 'dark' : 'true'}`}>
+    <div className={`chat-screen ${props.darkMode ? "dark" : "true"}`}>
       <p
         className="isTyping"
         style={isTyping ? { display: "block" } : { display: "none" }}
       >
         Someone Is Typing...
       </p>
-      <ul className="messages">{msgEle ? msgEle.map((doc) => {
-          return (
-            <Message
-              class={doc.data().uid == user.uid ? "sent" : "received"}
-              message={doc.data().message}
-              name={doc.data().name}
-              time={doc.data().sentTime}
-              photo={doc.data().photo}
-              darkMode={props.darkMode}
-            />
-          );
-        }) : ""}</ul>
+      <ul className="messages">
+        {msgEle
+          && msgEle.map((doc) => {
+              let data = doc.data();
+              if (data.type == "text")
+              {
+              return (
+
+                <Message
+                  class={data.uid == user.uid ? "sent" : "received"}
+                  message={data.message}
+                  name={data.name}
+                  time={data.sentTime}
+                  photo={data.photo}
+                  darkMode={props.darkMode}
+                />
+              );}else if(data.type == "file"){
+                return (
+                  <FileMessage
+                    fileName={data.fileName}
+                    fileUrl={data.fileUrl}
+                    darkMode={props.darkMode}
+                    photo={data.photo}
+                    class={data.uid == user.uid ? "sent" : "received"}/>
+                )
+              }
+            })
+          }
+      </ul>
       <form className="send-message">
         <input
           type="text"
@@ -125,6 +183,22 @@ export default function ChatScreen(props) {
           placeholder="Message..."
           onChange={handleInput}
         />
+        <button className="send-file" onClick={uploadFile}>
+          <FontAwesomeIcon icon={faPaperclip} />
+        </button>
+        <input
+          type="file"
+          className="file-input"
+          onChange={updateFile}
+          style={{ display: "none" }}
+        />
+        {file && (
+          <div className="file-container" onDoubleClick={() => setFile(null)}>
+            <p className="file-name">{file.name}</p>
+            <p className="file-size">{file.size} KB</p>
+          </div>
+        )}
+
         <button className="send-btn" onClick={sendMessage}>
           <FontAwesomeIcon icon={faPaperPlane} />
         </button>

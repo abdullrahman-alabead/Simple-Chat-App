@@ -62,6 +62,19 @@ $dark-alt-color: #3d3d3d;
         outline: none;
       }
     }
+
+    .send-file {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      right: 20%;
+      font-size: 1.3rem;
+      background-color: transparent;
+      border: none;
+      cursor: pointer;
+      transition: 0.6s ease-out;
+    }
+
     .send-btn {
       width: 3rem;
       height: 3rem;
@@ -73,6 +86,24 @@ $dark-alt-color: #3d3d3d;
       font-size: 1.2rem;
       cursor: pointer;
       transition: 0.6s ease-out;
+    }
+    .file-container {
+      position: absolute;
+      display: flex;
+      justify-content: space-between;
+      padding: 10px 15px;
+      align-items: center;
+      bottom: 110%;
+      left: 0;
+      background-color: $light-alt-color;
+      border-radius: 10px;
+      animation: fadeIn 0.6s ease-out;
+      font-weight: bold;
+      .file-name {
+        max-width: 50%;
+        overflow-wrap: break-word;
+        overflow: hidden;
+      }
     }
   }
   &.dark {
@@ -95,6 +126,9 @@ $dark-alt-color: #3d3d3d;
         background-color: $dark-second-background-color;
         color: $dark-text-color;
       }
+      .send-file {
+        color: $dark-text-color;
+      }
     }
   }
   &.light {
@@ -115,6 +149,9 @@ $dark-alt-color: #3d3d3d;
       }
       .send-btn {
         background-color: $light-alt-color;
+        color: $light-text-color;
+      }
+      .send-file {
         color: $light-text-color;
       }
     }
