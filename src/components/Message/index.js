@@ -12,7 +12,7 @@ export default function Message(props) {
         {props.message}
         {/* <p className='send-time'>{props.time}</p> */}
         </div>
-        <img src={props.photo} className='prof-pic' />
+        <img src={props.photo} className='prof-pic' alt='profile-photo'/>
       </li>
   )
 }

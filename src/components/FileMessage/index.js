@@ -13,10 +13,10 @@ return(
   <li className={`fileMessage ${props.darkMode? 'dark': 'light'} ${props.class}`}>
       
       <div className='message-file'>
-        <button onClick={saveFile} className='download-btn' download><FontAwesomeIcon icon={faArrowDown} /></button>
+        <button onClick={saveFile} className='download-btn' name='download-file-btn' download><FontAwesomeIcon icon={faArrowDown} /></button>
         <p className='name'>{props.fileName}</p>
         </div>
-        <img src={props.photo} className='prof-pic' />
+        <img src={props.photo} className='prof-pic' alt='prfile-pic' />
       </li>
 )
 }

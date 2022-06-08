@@ -5,7 +5,9 @@ body {
 }
 
 html {
-  background-image: linear-gradient(to right, #90e0ef, #0077b6);
+  background-image: linear-gradient(-45deg, #bdc3c7, #3e556b, #243553, #2a415a);
+  background-size: 400% 400%;
+  animation: gradiant 15s ease infinite;
 }
 
 @font-face {
@@ -16,4 +18,17 @@ html {
 @font-face {
   font-family: "Helvetica";
   src: url("./assets/helvetica-neu.ttf");
+}
+
+/* Background Animaiton */
+@keyframes gradiant {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
 }

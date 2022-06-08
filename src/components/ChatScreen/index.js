@@ -18,6 +18,7 @@ import {
   getDoc,
 } from "firebase/firestore";
 import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
+import { nanoid } from "nanoid";
 
 export default function ChatScreen(props) {
   // keep track of the message input field
@@ -79,6 +80,7 @@ export default function ChatScreen(props) {
       alert("Nothing to send");
       return;
     }
+    // Send Message
     if (document.querySelector(".text-msg").value != "") {
       let date = new Date();
       let hour = `${date.getHours() % 12}`.padStart(2, "0");
@@ -93,6 +95,7 @@ export default function ChatScreen(props) {
         photo: user.photoURL,
         _orderTime: Date.now(),
         uid: user.uid,
+        id: nanoid()
       })
         .then(() => {
           var messageBody = document.querySelector(".messages");
@@ -160,6 +163,7 @@ export default function ChatScreen(props) {
                   name={data.name}
                   time={data.sentTime}
                   photo={data.photo}
+                  key={data.id}
                   darkMode={props.darkMode}
                 />
               );}else if(data.type == "file"){
@@ -169,6 +173,7 @@ export default function ChatScreen(props) {
                     fileUrl={data.fileUrl}
                     darkMode={props.darkMode}
                     photo={data.photo}
+                  key={data.id}
                     class={data.uid == user.uid ? "sent" : "received"}/>
                 )
               }
@@ -183,12 +188,13 @@ export default function ChatScreen(props) {
           placeholder="Message..."
           onChange={handleInput}
         />
-        <button className="send-file" onClick={uploadFile}>
+        <button className="send-file" name="send-file-btn" onClick={uploadFile}>
           <FontAwesomeIcon icon={faPaperclip} />
         </button>
         <input
           type="file"
           className="file-input"
+          accept='image/*'
           onChange={updateFile}
           style={{ display: "none" }}
         />
@@ -199,7 +205,7 @@ export default function ChatScreen(props) {
           </div>
         )}
 
-        <button className="send-btn" onClick={sendMessage}>
+        <button className="send-btn" name="send-message-btn" onClick={sendMessage}>
           <FontAwesomeIcon icon={faPaperPlane} />
         </button>
       </form>
